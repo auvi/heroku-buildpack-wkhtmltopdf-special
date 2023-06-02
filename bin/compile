@@ -9,7 +9,7 @@ function prints() {
   echo "-----> $*"
 }
 
-WKHTMLTOPDF_PATH_EXTRACT=$CACHE_DIR/wkhtmltox-special
+WKHTMLTOPDF_PATH_EXTRACT=$CACHE_DIR/wkhtmltox
 DESTINATION=$BUILD_DIR/bin
 PACKAGE_NAME=$CACHE_DIR/$(basename $WKHTMLTOPDF_URL)
 
@@ -30,7 +30,7 @@ if [ ! -f "$DESTINATION/wkhtmltopdf-special" ]; then
         prints 'Moving wkhtmltopdf-special binaries to /app/bin'
 
         tar --xz --extract --file "$PACKAGE_NAME" --directory "$CACHE_DIR"
-        cp $WKHTMLTOPDF_PATH_EXTRACT/wkhtmltox/bin/wkhtmltopdf "$DESTINATION"/wkhtmltopdf-special
+        cp $WKHTMLTOPDF_PATH_EXTRACT/bin/wkhtmltopdf "$DESTINATION"/wkhtmltopdf-special
 
         prints 'Deleting temporary data'
         rm "$PACKAGE_NAME"
