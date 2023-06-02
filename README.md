@@ -1,1 +1,1 @@
-# heroku-buildpack-wkhtmltopdf-special
+Adapted from https://github.com/RohanDebroy/heroku-buildpack-wkhtmltopdf

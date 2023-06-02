@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# bin/compile BUILD_DIR CACHE_DIR ENV_DIR
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+WKHTMLTOPDF_URL="https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz"
+
+function prints() {
+  echo "-----> $*"
+}
+
+WKHTMLTOPDF_PATH_EXTRACT=$CACHE_DIR/wkhtmltox-special
+DESTINATION=$BUILD_DIR/bin
+PACKAGE_NAME=$CACHE_DIR/$(basename $WKHTMLTOPDF_URL)
+
+# Move files to /app/bin
+if [ ! -f "$DESTINATION/wkhtmltopdf-special" ]; then
+
+	if [ ! -d "$DESTINATION" ]; then
+		mkdir -p "$DESTINATION"
+	fi
+
+    # Download and extract
+    if [ ! -d "$WKHTMLTOPDF_PATH_EXTRACT" ]; then
+        prints 'Downloading wkhtmltopdf-special'
+        mkdir -p $(dirname $PACKAGE_NAME)
+        wget --quiet --continue --output-document="$PACKAGE_NAME" "$WKHTMLTOPDF_URL"
+
+        prints 'Extracting wkhtmltopdf-special'
+        prints 'Moving wkhtmltopdf-special binaries to /app/bin'
+
+        tar --xz --extract --file "$PACKAGE_NAME" --directory "$CACHE_DIR"
+        cp $WKHTMLTOPDF_PATH_EXTRACT/bin/wkhtmltopdf $DESTINATION
+
+        prints 'Deleting temporary data'
+        rm "$PACKAGE_NAME"
+        rm -rf "$WKHTMLTOPDF_PATH_EXTRACT"
+
+        prints 'wkhtmltopdf-special is successfully downloaded and extracted to /app/bin'
+    fi
+fi
